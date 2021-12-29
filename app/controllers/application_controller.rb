@@ -2,6 +2,7 @@ class ApplicationController < ActionController::API
     before_action :authorized
 
     def encode_token(payload)
+        payload[:exp] = Time.now.to_i + 1 * 3600 # satuan detik
         JWT.encode(payload, 's3cr3t')
     end
 
