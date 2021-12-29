@@ -5,10 +5,16 @@ Rails.application.routes.draw do
       get 'search'
     end
   end
+
   resources :words
   resources :timers
   resources :languages
-  resources :users
+  resources :users do
+    collection do
+      post 'login'
+    end
+  end
+
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
   # Defines the root path route ("/")

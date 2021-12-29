@@ -1,4 +1,6 @@
 class WordsController < ApplicationController
+    before_action :authorized
+    
     def index
         @word = Word.all 
         render json: @word
