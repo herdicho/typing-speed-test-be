@@ -1,4 +1,6 @@
 class LanguagesController < ApplicationController
+    before_action :authorized
+    
     def index
         @language = Language.all 
         render json: @language

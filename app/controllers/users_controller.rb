@@ -2,9 +2,6 @@ class UsersController < ApplicationController
     before_action :authorized, except: [:create, :login]
 
     def index
-        val = JWT.decode(request.headers['Authorization'].split(' ').last, 's3cr3t', true, algorithm: 'HS256').first
-        puts val['user_id']
-        
         @user = User.all 
         render json: @user
     end 

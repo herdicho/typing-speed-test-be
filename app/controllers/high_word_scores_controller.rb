@@ -1,4 +1,6 @@
 class HighWordScoresController < ApplicationController
+    before_action :authorized
+
     def index
         @highWordScore = HighWordScore.all 
         render json: @highWordScore
@@ -10,8 +12,10 @@ class HighWordScoresController < ApplicationController
     end 
 
     def create
+        @user = logged_in_user()
+
         @highWordScore = HighWordScore.new(
-            user_id: params[:user_id],
+            user_id: @user.id,
             timer_id: params[:timer_id],
             language_id: params[:language_id],
             word_score: params[:word_score]

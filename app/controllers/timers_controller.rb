@@ -1,4 +1,6 @@
 class TimersController < ApplicationController
+    before_action :authorized
+    
     def index
         @timer = Timer.all 
         render json: @timer

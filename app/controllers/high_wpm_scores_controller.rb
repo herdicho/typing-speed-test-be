@@ -1,4 +1,6 @@
 class HighWpmScoresController < ApplicationController
+    before_action :authorized
+
     def index
         @highWPMScore = HighWpmScore.all 
         render json: @highWPMScore
@@ -10,8 +12,10 @@ class HighWpmScoresController < ApplicationController
     end 
 
     def create
+        @user = logged_in_user()
+        
         @highWPMScore = HighWpmScore.new(
-            user_id: params[:user_id],
+            user_id: @user.id,
             timer_id: params[:timer_id],
             language_id: params[:language_id],
             wpm_score: params[:wpm_score]
