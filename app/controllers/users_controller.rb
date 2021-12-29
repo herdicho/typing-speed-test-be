@@ -1,5 +1,10 @@
 class UsersController < ApplicationController
+    before_action :authorized, except: [:create, :login]
+
     def index
+        val = JWT.decode(request.headers['Authorization'].split(' ').last, 's3cr3t', true, algorithm: 'HS256').first
+        puts val['user_id']
+        
         @user = User.all 
         render json: @user
     end 
@@ -8,6 +13,17 @@ class UsersController < ApplicationController
         @user = User.find(params[:id])
         render json: @user
     end 
+
+    def login 
+        @user = User.find_by(username: params[:username])
+
+        if @user 
+            token = encode_token({user_id: @user.id})
+            render json: {user: @user, token: token}
+        else
+            render json: {error: "Invalid username or password"}
+        end
+    end
 
     def create
         @user = User.new(
